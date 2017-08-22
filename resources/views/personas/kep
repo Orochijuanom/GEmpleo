@@ -1,0 +1,225 @@
+ @if(isset($curriculo))
+                            @if($curriculo->video != null)
+                                <div class="form-group">
+                                    <label for="direccion" class="col-md-3 control-label">Video</label>
+
+                                    <div class="col-md-8">
+                                        <video controls src="{{$curriculo->video}}"  />
+                                    </div>
+                                </div>
+                            @endif
+                        @endif
+
+                        @if(isset($experiencias))
+                            <div class="panel panel-default">
+                                <div class="panel-heading"> Experiencia laboral</div>
+                                <div class="panel-body">
+                                    @foreach($experiencias as $experiencia)
+                                        <div class="well">
+                                            <div class="form-group">
+                                                <label  class="col-md-3 control-label">Empresa</label>
+
+                                                <div class="col-md-8">
+                                                    <input type="text"  class="form-control" value="{{$experiencia->empresa}}" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label  class="col-md-3 control-label">Departamento</label>
+
+                                                <div class="col-md-8">
+                                                    <input  type="text"  class="form-control"  value="{{$experiencia->departamento->departamento}}" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label  class="col-md-3 control-label">Sector</label>
+
+                                                <div class="col-md-8">
+                                                    <input type="text"  class="form-control" value="{{$experiencia->sectore->sector}}" readonly>
+                                                </div>
+                                            </div>
+
+                                             <div class="form-group">
+                                                <label  class="col-md-3 control-label">Cargo</label>
+
+                                                <div class="col-md-8">
+                                                    <input type="text"  class="form-control" value="{{$experiencia->cargo}}" readonly>
+                                                </div>
+                                            </div>
+
+                                             <div class="form-group">
+                                                <label  class="col-md-3 control-label">Area</label>
+
+                                                <div class="col-md-8">
+                                                    <input type="text"  class="form-control" value="{{$experiencia->area->area}}" readonly>
+                                                </div>
+                                            </div>
+
+                                             <div class="form-group">
+                                                <label  class="col-md-3 control-label">Inicio</label>
+
+                                                <div class="col-md-8">
+                                                    <input type="date"  class="form-control" value="{{$experiencia->inicio}}" readonly>
+                                                </div>
+                                            </div>
+
+                                             <div class="form-group">
+                                                <label  class="col-md-3 control-label">Fin</label>
+
+                                                <div class="col-md-8">
+                                                    <input type="date"  class="form-control" value="{{$experiencia->fin}}" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Continua</label>
+
+                                                <div class="col-md-8">
+                                                    <input type="checkbox" class="form-control" readonly @if($experiencia->continua == 1) checked @endif>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label  class="col-md-3 control-label">Descripcion</label>
+
+                                                <div class="col-md-8">
+                                                    <textarea class="form-control" readonly>{{$experiencia->descripcion}}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
+                        @if(isset($formaciones))
+                            <div class="panel panel-default">
+                                <div class="panel-heading"> Formación</div>
+                                <div class="panel-body">
+                                    @foreach($formaciones as $formacion)
+                                        <div class="well">
+                                            <div class="form-group">
+                                                <label  class="col-md-3 control-label">Centro educativo</label>
+
+                                                <div class="col-md-8">
+                                                    <input type="text"  class="form-control" value="{{$formacion->centro_educativo}}" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label  class="col-md-3 control-label">Nivel</label>
+
+                                                <div class="col-md-8">
+                                                    <input type="text"  class="form-control" value="{{$formacion->nivele->nivel}}" readonly>
+                                                </div>
+                                            </div>
+
+
+                                             <div class="form-group">
+                                                <label  class="col-md-3 control-label">Inicio</label>
+
+                                                <div class="col-md-8">
+                                                    <input type="date"  class="form-control" value="{{$formacion->inicio}}" readonly>
+                                                </div>
+                                            </div>
+
+                                             <div class="form-group">
+                                                <label  class="col-md-3 control-label">Fin</label>
+
+                                                <div class="col-md-8">
+                                                    <input type="date"  class="form-control" value="{{$formacion->fin}}" readonly>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Continua</label>
+
+                                                <div class="col-md-8">
+                                                    <input type="checkbox" class="form-control" readonly @if($formacion->continua == 1) checked @endif>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
+
+
+
+                        ///////////////////////////////////////////////////////7
+
+                        <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <ol class="breadcrumb">
+                    <li><a href="/personas">Inicio</a></li> 
+                    <li><a href="/personas/curriculo/datos-personales">Datos personales</a></li>                    
+                    <li class="active">Video</li>
+                </ol>
+                <div class="panel-heading">Video</div>
+                <div class="panel-body">
+                    @if (Session::get('message'))
+                        <div class="alert alert-success">
+                            {{Session::get('message')}}
+                            <br><br>			
+                        </div>
+                    @endif
+
+                    @if (count($errors) > 0)
+                        <div class="alert alert-danger">
+                            <strong>Whoops!</strong> Hubo Algunos problemas con tu entrada.<br><br>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    @if(isset($curriculo))
+                        <form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" action="/personas/curriculo/video">
+                            {{ csrf_field() }}
+
+                            <div class="form-group{{ $errors->has('video') ? ' has-error' : '' }}">
+                                <label for="video" class="col-md-3 control-label">Video</label>
+
+                                <div class="col-md-8">
+                                    <video  id="gum" autoplay muted></video>
+                                             <video  id="recorded" autoplay loop></video>
+                                            <input type="file" id="videoinput" name="video" >
+                                            <br>
+                                            <a class="btn btn-default" id="record" >Grabar</a>
+                                            <a   class="btn btn-default" id="play" >Play</a>
+                                            <a  class="btn btn-default" id="download" >Descargar</a>
+                                </div>
+                            </div>
+
+                                                
+
+                            <div class="form-group">
+                                <div class="col-md-8 col-md-offset-3">
+                                    <button type="submit" class="btn btn-primary">
+                                        Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    @else
+
+                    @endif
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
