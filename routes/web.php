@@ -48,7 +48,7 @@ Route::group(['prefix' => 'empresas' , 'middleware' => 'empresas'], function() {
         Route::get('/', function() {
             $sectores = App\Sectore::all();
             $departamentos = App\Departamento::all();
-            $municipios = App\Municipio::all();
+            $municipios = App\Municipio::orderBy('municipio', 'asc')->get();;
             $informacion = App\Empresa::where('user_id', Auth::user()->id)->first();
             return view('empresas.informacion')->with([
                 'sectores' => $sectores,
@@ -62,27 +62,63 @@ Route::group(['prefix' => 'empresas' , 'middleware' => 'empresas'], function() {
     });
 
     Route::group(['prefix' => 'personas'], function() {
-        Route::get('/{letra?}', function($letra = null) {
-            if(isset($_GET['buscador'])){
-                if($_GET['buscador'] == 'municipio'){
-                    $municipios = App\Municipio::where('municipio', 'like', '%'.$_GET['busqueda'].'%')->pluck('id');
-                    $curriculos = App\Curriculo::whereIn('municipio_id', $municipios)->orderBy('nombre', 'asc')->get();
-
-                }elseif($_GET['buscador'] == 'profesion'){
-                    $profesiones = App\Profesione::where('profesione', 'like', '%'.$_GET['busqueda'].'%')->pluck('id');
-                    $curriculos = App\Curriculo::whereIn('profesione_id', $profesiones)->orderBy('nombre', 'asc')->get();
-                }elseif($_GET['buscador'] == 'salario'){
-                    $curriculos = App\Curriculo::where('salario', '<', $_GET['busqueda'])->orderBy('nombre', 'asc')->get();
-                }else{
-                    $curriculos = App\Curriculo::where('nombre', 'like', $letra.'%')->orderBy('nombre', 'asc')->get();
-                }
+        Route::get('/{letra}/buscador/{buscador}/{busqueda?}', function($letra, $buscador, $busqueda = null) {
+            $empresa = App\Empresa::where('user_id', Auth::user()->id)->first();
+            if($empresa == null){
+                return redirect('/empresas/informacion');
             }else{
-                $curriculos = App\Curriculo::where('nombre', 'like', $letra.'%')->orderBy('nombre', 'asc')->get();
-
+                if(isset($_GET['buscador'])){
+                    return Redirect::to('/empresas/personas/'.$letra.'/buscador/'.$_GET['buscador'].'/'.$_GET['busqueda']);
+                }
+                if($letra == 'all'){
+                    
+                    if($buscador == 'municipio'){
+                        
+                        $municipios = App\Municipio::where('municipio', 'like', '%'.$busqueda.'%')->pluck('id');
+                        $curriculos = App\Curriculo::whereIn('municipio_id', $municipios)->orderBy('nombre', 'asc')->paginate('9');
+    
+                    }elseif($buscador == 'profesion'){
+                        $profesiones = App\Profesione::where('profesione', 'like', '%'.$busqueda.'%')->pluck('id');
+                        $curriculos = App\Curriculo::whereIn('profesione_id', $profesiones)->orderBy('nombre', 'asc')->paginate('9');
+                    }elseif($buscador == 'salario'){
+                        $curriculos = App\Curriculo::where('salario', '<', $busqueda)->orderBy('nombre', 'asc')->paginate('9');
+                    }else{
+                        $curriculos = App\Curriculo::orderBy('nombre', 'asc')->paginate('9');
+                    }
+                }else{
+                    if($buscador == 'municipio'){
+                        
+                        $municipios = App\Municipio::where('municipio', 'like', '%'.$busqueda.'%')->pluck('id');
+                        $curriculos = App\Curriculo::where('nombre', 'like', $letra.'%')->whereIn('municipio_id', $municipios)->orderBy('nombre', 'asc')->paginate('9');
+    
+                    }elseif($buscador == 'profesion'){
+                        $profesiones = App\Profesione::where('profesione', 'like', '%'.$busqueda.'%')->pluck('id');
+                        $curriculos = App\Curriculo::where('nombre', 'like', $letra.'%')->whereIn('profesione_id', $profesiones)->orderBy('nombre', 'asc')->paginate('9');
+                    }elseif($buscador == 'salario'){
+                        $curriculos = App\Curriculo::where('nombre', 'like', $letra.'%')->where('salario', '<', $busqueda)->orderBy('nombre', 'asc')->paginate('9');
+                    }else{
+                        $curriculos = App\Curriculo::where('nombre', 'like', $letra.'%')->orderBy('nombre', 'asc')->paginate('9');
+                    }
+                    
+    
+                }
+                
+                
+                return view('empresas.personas')->with(['curriculos' => $curriculos, 'letra' => $letra, 'buscador' => $buscador, 'busqueda' => $busqueda]);
             }
             
-            return view('empresas.personas')->with('curriculos', $curriculos);
         });
+
+        Route::get('/{curriculo_id}', function($curriculo_id) {
+            $curriculo = App\Curriculo::where('id', $curriculo_id)->first();
+            
+            $formaciones = App\Formacione::where('curriculo_id', $curriculo->id)->get();
+            $experiencias = App\Experiencia::where('curriculo_id', $curriculo->id)->get();
+            
+            return view('empresas.curriculo')->with(['curriculo' => $curriculo, 'formaciones' => $formaciones, 'experiencias' => $experiencias]);
+            
+            
+        })->middleware('vistas');
     });
 });
 
@@ -108,7 +144,7 @@ Route::group(['prefix' => 'personas' , 'middleware' => 'personas'], function() {
             //$licencias = App\Licencia::all();
             $paises = App\Paise::all();
             $departamentos = App\Departamento::all();
-            $municipios = App\Municipio::all();
+            $municipios = App\Municipio::orderBy('municipio', 'asc')->get();
             $profesiones = App\Profesione::orderBy('profesione')->get();
             $situaciones = App\Situacione::all();
             $experiencias = null;

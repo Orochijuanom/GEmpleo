@@ -32,7 +32,7 @@ class CreateCurriculosTable extends Migration
             $table->integer('profesione_id')->unsigned();
             $table->text('descripcion');
             $table->integer('situacione_id')->unsigned();
-            $table->string('salario');
+            $table->integer('salario');
             $table->boolean('disponibilidad_viajar');
             $table->boolean('disponibilidad_cambio_residencia');
             $table->timestamps();

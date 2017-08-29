@@ -8,6 +8,23 @@
   <img src="@if(isset(Auth::user()->curriculo)){{Auth::user()->curriculo->foto}}@else /images/user.png @endif" alt="">{{Auth::user()->name}}
 @endsection
 
+@section('dropmenu')
+
+  <li><a href="/personas"> Perfil</a></li>
+
+  <li>
+      <a href="{{ route('logout') }}"
+            onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+            <i class="fa fa-sign-out pull-right"></i> Salir</a>
+        </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
+  </li>
+
+@endsection
+
 @section('sidebar')
 <li><a><i class="fa fa-home"></i> Inicio <span class="fa fa-chevron-down"></span></a>
   <ul class="nav child_menu">

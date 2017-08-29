@@ -24,7 +24,7 @@
         {{ csrf_field() }}                
         <div class="x_panel">
             <div class="x_title">
-                <h2>Datos Personales</h2>
+                <h2>Información empresarial</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
                         <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>

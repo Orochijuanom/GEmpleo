@@ -8,7 +8,7 @@
 
               <div class="title_right">
                 <div class="col-md-6 col-sm-6 col-xs-12 form-group pull-right top_search">
-                <form data-parsley-validate class="form-horizontal form-label-left" role="form" method="GET" action="/empresas/personas/">
+                <form data-parsley-validate class="form-horizontal form-label-left" role="form" method="GET" action="/empresas/personas/{{$letra}}/buscador/{{$buscador}}">
                 {{ csrf_field() }} 
                   
                   <div class="col-md-5 col-sm-5 col-xs-12">
@@ -60,34 +60,34 @@
                     <div class="row">
                       <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                         <ul class="pagination pagination-split">
-                          <li><a href="/empresas/personas/">Todos</a></li>
-                          <li><a href="/empresas/personas/a">A</a></li>
-                          <li><a href="/empresas/personas/b">B</a></li>
-                          <li><a href="/empresas/personas/c">C</a></li>
-                          <li><a href="/empresas/personas/d">D</a></li>
-                          <li><a href="/empresas/personas/e">E</a></li>
-                          <li><a href="/empresas/personas/f">F</a></li>
-                          <li><a href="/empresas/personas/g">G</a></li>
-                          <li><a href="/empresas/personas/h">H</a></li>
-                          <li><a href="/empresas/personas/i">I</a></li>
-                          <li><a href="/empresas/personas/j">J</a></li>
-                          <li><a href="/empresas/personas/k">K</a></li>
-                          <li><a href="/empresas/personas/l">L</a></li>
-                          <li><a href="/empresas/personas/m">M</a></li>
-                          <li><a href="/empresas/personas/n">N</a></li>
-                          <li><a href="/empresas/personas/ñ">Ñ</a></li>
-                          <li><a href="/empresas/personas/o">O</a></li>
-                          <li><a href="/empresas/personas/p">P</a></li>
-                          <li><a href="/empresas/personas/q">Q</a></li>
-                          <li><a href="/empresas/personas/r">R</a></li>
-                          <li><a href="/empresas/personas/s">S</a></li>
-                          <li><a href="/empresas/personas/t">T</a></li>
-                          <li><a href="/empresas/personas/u">U</a></li>
-                          <li><a href="/empresas/personas/v">V</a></li>
-                          <li><a href="/empresas/personas/w">W</a></li>
-                          <li><a href="/empresas/personas/x">X</a></li>
-                          <li><a href="/empresas/personas/y">Y</a></li>
-                          <li><a href="/empresas/personas/z">Z</a></li>
+                          <li><a  href="/empresas/personas/all/buscador/none/">Todos</a></li>
+                          <li @if($letra == 'a') class="page-item active" @endif><a href="/empresas/personas/a/buscador/{{$buscador}}/{{$busqueda}}">A</a></li>
+                          <li @if($letra == 'b') class="page-item active" @endif><a href="/empresas/personas/b/buscador/{{$buscador}}/{{$busqueda}}">B</a></li>
+                          <li @if($letra == 'c') class="page-item active" @endif><a href="/empresas/personas/c/buscador/{{$buscador}}/{{$busqueda}}">C</a></li>
+                          <li @if($letra == 'd') class="page-item active" @endif><a href="/empresas/personas/d/buscador/{{$buscador}}/{{$busqueda}}">D</a></li>
+                          <li @if($letra == 'e') class="page-item active" @endif><a href="/empresas/personas/e/buscador/{{$buscador}}/{{$busqueda}}">E</a></li>
+                          <li @if($letra == 'f') class="page-item active" @endif><a href="/empresas/personas/f/buscador/{{$buscador}}/{{$busqueda}}">F</a></li>
+                          <li @if($letra == 'g') class="page-item active" @endif><a href="/empresas/personas/g/buscador/{{$buscador}}/{{$busqueda}}">G</a></li>
+                          <li @if($letra == 'h') class="page-item active" @endif><a href="/empresas/personas/h/buscador/{{$buscador}}/{{$busqueda}}">H</a></li>
+                          <li @if($letra == 'i') class="page-item active" @endif><a href="/empresas/personas/i/buscador/{{$buscador}}/{{$busqueda}}">I</a></li>
+                          <li @if($letra == 'j') class="page-item active" @endif><a href="/empresas/personas/j/buscador/{{$buscador}}/{{$busqueda}}">J</a></li>
+                          <li @if($letra == 'k') class="page-item active" @endif><a href="/empresas/personas/k/buscador/{{$buscador}}/{{$busqueda}}">K</a></li>
+                          <li @if($letra == 'l') class="page-item active" @endif><a href="/empresas/personas/l/buscador/{{$buscador}}/{{$busqueda}}">L</a></li>
+                          <li @if($letra == 'm') class="page-item active" @endif><a href="/empresas/personas/m/buscador/{{$buscador}}/{{$busqueda}}">M</a></li>
+                          <li @if($letra == 'n') class="page-item active" @endif><a href="/empresas/personas/n/buscador/{{$buscador}}/{{$busqueda}}">N</a></li>
+                          <li @if($letra == 'ñ') class="page-item active" @endif><a href="/empresas/personas/ñ/buscador/{{$buscador}}/{{$busqueda}}">Ñ</a></li>
+                          <li @if($letra == 'o') class="page-item active" @endif><a href="/empresas/personas/o/buscador/{{$buscador}}/{{$busqueda}}">O</a></li>
+                          <li @if($letra == 'p') class="page-item active" @endif><a href="/empresas/personas/p/buscador/{{$buscador}}/{{$busqueda}}">P</a></li>
+                          <li @if($letra == 'q') class="page-item active" @endif><a href="/empresas/personas/q/buscador/{{$buscador}}/{{$busqueda}}">Q</a></li>
+                          <li @if($letra == 'r') class="page-item active" @endif><a href="/empresas/personas/r/buscador/{{$buscador}}/{{$busqueda}}">R</a></li>
+                          <li @if($letra == 's') class="page-item active" @endif><a href="/empresas/personas/s/buscador/{{$buscador}}/{{$busqueda}}">S</a></li>
+                          <li @if($letra == 't') class="page-item active" @endif><a href="/empresas/personas/t/buscador/{{$buscador}}/{{$busqueda}}">T</a></li>
+                          <li @if($letra == 'u') class="page-item active" @endif><a href="/empresas/personas/u/buscador/{{$buscador}}/{{$busqueda}}">U</a></li>
+                          <li @if($letra == 'v') class="page-item active" @endif><a href="/empresas/personas/v/buscador/{{$buscador}}/{{$busqueda}}">V</a></li>
+                          <li @if($letra == 'w') class="page-item active" @endif><a href="/empresas/personas/w/buscador/{{$buscador}}/{{$busqueda}}">W</a></li>
+                          <li @if($letra == 'x') class="page-item active" @endif><a href="/empresas/personas/x/buscador/{{$buscador}}/{{$busqueda}}">X</a></li>
+                          <li @if($letra == 'y') class="page-item active" @endif><a href="/empresas/personas/y/buscador/{{$buscador}}/{{$busqueda}}">Y</a></li>
+                          <li @if($letra == 'z') class="page-item active" @endif><a href="/empresas/personas/z/buscador/{{$buscador}}/{{$busqueda}}">Z</a></li>
                         </ul>
                       </div>
 
@@ -113,7 +113,7 @@
                               </ul>
                             </div>
                             <div class="right col-xs-5 text-center">
-                              <img src="{{$curriculo->foto}}" alt="" class="img-circle img-responsive">
+                              <img width="150" src="{{$curriculo->foto}}" alt="" class="img img-responsive">
                             </div>
                           </div>
                           <div class="col-xs-12 bottom text-center">
@@ -121,11 +121,8 @@
                               
                             </div>
                             <div class="col-xs-12 col-sm-6 emphasis">
-                              <button type="button" class="btn btn-success btn-xs"> <i class="fa fa-user">
-                                </i> <i class="fa fa-comments-o"></i> </button>
-                              <button type="button" class="btn btn-primary btn-xs">
-                                <i class="fa fa-user"> </i> View Profile
-                              </button>
+                            <a href="/empresas/personas/{{$curriculo->id}}" class="btn btn-primary btn-xs"><i class="fa fa-user"> </i> Ver Perfil</a>
+                
                             </div>
                           </div>
                         </div>
@@ -133,7 +130,7 @@
                         @endforeach
                         <br/>
                         <div class="col-md-12 col-sm-12 col-xs-12 profile_details">
-                        
+                         {{$curriculos->links()}}
                         </div>
                       @else
                         <div class="alert alert-danger">

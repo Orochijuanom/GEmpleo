@@ -54,6 +54,7 @@ class Kernel extends HttpKernel
         'administrador' => \App\Http\Middleware\checkAdministrador::class,
         'empresas' => \App\Http\Middleware\checkEmpresas::class,
         'personas' => \App\Http\Middleware\checkPersonas::class,
+        'vistas' => \App\Http\Middleware\checkVistas::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
