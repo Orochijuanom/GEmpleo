@@ -34,7 +34,17 @@ Route::get('/email/{email}/confirmation_token/{confirmation_token}', function ($
 
 Route::group(['prefix' => 'administrador' , 'middleware' => 'administrador'], function() {
     Route::get('/', function() {
-        return view('administrador.home');
+        return view('administrador.dashboard');
+    });
+
+    Route::get('/empresas', function () {
+        $empresas = App\User::where('tipouser_id', '3')->with('empresa')->orderBy('name', 'asc')->paginate(10);
+        return view('administrador.empresas')->with('empresas', $empresas);
+    });
+
+    Route::get('/personas', function () {
+        $personas = App\User::where('tipouser_id', '2')->with('curriculo')->orderBy('name', 'asc')->paginate(10);
+        return view('administrador.personas')->with('personas', $personas);
     });
 
 });
@@ -58,7 +68,7 @@ Route::group(['prefix' => 'empresas' , 'middleware' => 'empresas'], function() {
             ]);
         });
 
-        Route::post('/', 'empresasController@informacion');
+        Route::post('/', 'EmpresasController@informacion');
     });
 
     Route::group(['prefix' => 'personas'], function() {

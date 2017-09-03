@@ -8,7 +8,9 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    <a href="/curriculo/datos-personales">Curriculo</a>
+                    <a href="/empresas/informacion">Información</a>
+
+                    <a href="/empresas/personas">Buscar Curriculos</a>
                 </div>
             </div>
         </div>
