@@ -42,10 +42,13 @@ Route::group(['prefix' => 'administrador' , 'middleware' => 'administrador'], fu
         return view('administrador.empresas')->with('empresas', $empresas);
     });
 
+    Route::post('/user/activar/{id}', 'AdministradorController@activar');
+
     Route::get('/personas', function () {
         $personas = App\User::where('tipouser_id', '2')->with('curriculo')->orderBy('name', 'asc')->paginate(10);
         return view('administrador.personas')->with('personas', $personas);
     });
+
 
 });
 

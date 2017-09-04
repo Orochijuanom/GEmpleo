@@ -22,9 +22,14 @@
     <li><a href="/administrador">Inicio</a></li>
   </ul>
 </li>
-<li><a><i class="fa fa-edit"></i>Empresas<span class="fa fa-chevron-down"></span></a>
+<li><a><i class="fa fa-industry"></i>Empresas<span class="fa fa-chevron-down"></span></a>
   <ul class="nav child_menu">
     <li><a href="/administrador/empresas">Información</a></li>
+  </ul>
+</li>
+<li><a><i class="fa fa-users"></i>Personas<span class="fa fa-chevron-down"></span></a>
+  <ul class="nav child_menu">
+    <li><a href="/administrador/personas">Información</a></li>
   </ul>
 </li>
 

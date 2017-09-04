@@ -13,6 +13,24 @@
             <div class="clearfix"></div>
         </div>
 
+        @if (Session::get('message'))
+            <div class="alert alert-success">
+                {{Session::get('message')}}
+                <br><br>			
+            </div>
+        @endif
+
+        @if (count($errors) > 0)
+            <div class="alert alert-danger">
+                <strong>Whoops!</strong> Hubo Algunos problemas con tu entrada.<br><br>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="x_content">
             <table class="table table-striped">
                 <thead>
@@ -22,6 +40,7 @@
                         <th>Email</th>
                         <th>profesion</th>
                         <th>Estado</th>
+                        <th>Opciones</th>
                     
                     </tr>
                 </thead>
@@ -44,6 +63,13 @@
                                 @else
                                     Inactivo
                                 @endif 
+                            </td>
+                            <td>
+                                <form action="/administrador/user/activar/{{$persona->id}}" method="post" class="form-horizontal form-label-left">
+                                    {{ csrf_field() }}
+                                    <button type="submit" class="btn btn-warning">Activar/Desactivar</button>    
+                                </form>
+                                
                             </td>
                         </tr>
                     @endforeach
