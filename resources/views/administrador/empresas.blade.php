@@ -85,6 +85,12 @@
                                     {{ csrf_field() }}
                                     <button type="submit" class="btn btn-warning">Activar/Desactivar</button>    
                                 </form>
+                                @if($empresa->empresa)
+                                    <a href="/administrador/empresas/{{$empresa->empresa->id}}" class="btn btn-success">Configurar vistas</a>
+                                @else
+                                    <a href="/administrador/empresas/" disabled class="btn btn-default">Configurar vistas</a>
+                                @endif
+                                
                                 
                             </td>
                         </tr>

@@ -49,6 +49,15 @@ Route::group(['prefix' => 'administrador' , 'middleware' => 'administrador'], fu
         return view('administrador.personas')->with('personas', $personas);
     });
 
+    Route::get('/empresas/{id}', function ($id) {
+        $empresa = App\Empresa::find($id);
+        
+        return view('administrador.vistas')->with('empresa', $empresa);
+
+    });
+
+    Route::post('/empresas/vistas', 'AdministradorController@limite');
+
 
 });
 

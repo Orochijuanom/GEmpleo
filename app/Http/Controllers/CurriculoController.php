@@ -85,7 +85,6 @@ class CurriculoController extends Controller
             return redirect()->back()->with('message', 'Sus datos personales han sido almacenados con exito');
 
         }catch(\PDOException $e){
-            dd($e);
             return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
         }
 
