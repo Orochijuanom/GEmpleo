@@ -8,6 +8,9 @@ use File;
 use Storage;
 
 use App\Empresa;
+use App\Municipio;
+use App\Curriculo;
+use App\Profesione;
 
 class EmpresasController extends Controller
 {
@@ -81,6 +84,52 @@ class EmpresasController extends Controller
                 return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
             }
 
+        }
+    }
+
+    public function personas($letra, $buscador, $busqueda = null){
+        $empresa = Empresa::where('user_id', Auth::user()->id)->first();
+        if($empresa == null){
+            return redirect('/empresas/informacion');
+        }else{
+            if(isset($_GET['buscador'])){
+                return Redirect::to('/empresas/personas/'.$letra.'/buscador/'.$_GET['buscador'].'/'.$_GET['busqueda']);
+            }
+            if($letra == 'all'){
+                
+                if($buscador == 'municipio'){
+                    
+                    $municipios = Municipio::where('municipio', 'like', '%'.$busqueda.'%')->pluck('id');
+                    $curriculos = Curriculo::whereIn('municipio_id', $municipios)->orderBy('nombre', 'asc')->paginate('6');
+
+                }elseif($buscador == 'profesion'){
+                    $profesiones = Profesione::where('profesione', 'like', '%'.$busqueda.'%')->pluck('id');
+                    $curriculos = Curriculo::whereIn('profesione_id', $profesiones)->orderBy('nombre', 'asc')->paginate('6');
+                }elseif($buscador == 'salario'){
+                    $curriculos = Curriculo::where('salario', '<', $busqueda)->orderBy('nombre', 'asc')->paginate('6');
+                }else{
+                    $curriculos = Curriculo::orderBy('nombre', 'asc')->paginate('6');
+                }
+            }else{
+                if($buscador == 'municipio'){
+                    
+                    $municipios = Municipio::where('municipio', 'like', '%'.$busqueda.'%')->pluck('id');
+                    $curriculos = Curriculo::where('nombre', 'like', $letra.'%')->whereIn('municipio_id', $municipios)->orderBy('nombre', 'asc')->paginate('6');
+
+                }elseif($buscador == 'profesion'){
+                    $profesiones = Profesione::where('profesione', 'like', '%'.$busqueda.'%')->pluck('id');
+                    $curriculos = Curriculo::where('nombre', 'like', $letra.'%')->whereIn('profesione_id', $profesiones)->orderBy('nombre', 'asc')->paginate('6');
+                }elseif($buscador == 'salario'){
+                    $curriculos = Curriculo::where('nombre', 'like', $letra.'%')->where('salario', '<', $busqueda)->orderBy('nombre', 'asc')->paginate('6');
+                }else{
+                    $curriculos = Curriculo::where('nombre', 'like', $letra.'%')->orderBy('nombre', 'asc')->paginate('6');
+                }
+                
+
+            }
+            
+            
+            return view('empresas.personas')->with(['curriculos' => $curriculos, 'letra' => $letra, 'buscador' => $buscador, 'busqueda' => $busqueda]);
         }
     }
 }

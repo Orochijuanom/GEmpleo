@@ -41,6 +41,11 @@
     <li><a href=" /empresas/personas/all/buscador/none/">Buscar</a></li>
   </ul>
 </li>
+<li><a><i class="fa fa-money"></i>Ofertas<span class="fa fa-chevron-down"></span></a>
+  <ul class="nav child_menu">
+    <li><a href=" /empresas/ofertas">Ofertas</a></li>
+  </ul>
+</li>
 @endsection
 
 @section('content')
