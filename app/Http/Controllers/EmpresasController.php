@@ -11,6 +11,7 @@ use App\Empresa;
 use App\Municipio;
 use App\Curriculo;
 use App\Profesione;
+use App\OFerta;
 
 class EmpresasController extends Controller
 {
@@ -131,5 +132,31 @@ class EmpresasController extends Controller
             
             return view('empresas.personas')->with(['curriculos' => $curriculos, 'letra' => $letra, 'buscador' => $buscador, 'busqueda' => $busqueda]);
         }
+    }
+
+    public function ofertas(Request $request){
+        $this->validate($request, [
+            'oferta' =>'required',
+            'salario' => 'required|numeric',
+            'vacantes' => 'required|numeric'
+        ]);
+
+        try{
+            $oferta = Oferta::create([
+                'empresa_id' => Auth::user()->empresa->id,
+                'descripcion' => $request->oferta, 
+                'profesione_id' => $request->profesion,
+                'salario' => $request->salario,
+                'municipio_id' => $request->municipio,
+                'vacantes' => $request->vacantes
+            ]);
+
+            return redirect('/empresas/ofertas')->with('message', 'La oferta laboral ha sido creada con exito');
+        }catch(\PDOException $e){
+            
+                return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
+            }
+
+
     }
 }

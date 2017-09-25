@@ -14,6 +14,10 @@ class Empresa extends Model
         return $this->hasMany('App\Vista');
     }
 
+    public function ofertas(){
+        return $this->hasMany('App\Oferta');
+    }
+
     public function getVistasAttribute(){
         return $this->vistas()->whereRaw('month(created_at) = '.date('n'))->count('id');
     }

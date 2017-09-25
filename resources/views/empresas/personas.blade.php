@@ -113,7 +113,8 @@
                               </ul>
                             </div>
                             <div class="right col-xs-5 text-center">
-                              <img width="150" src="{{$curriculo->foto}}" alt="" class="img img-responsive">
+                              <video src="{{$curriculo->video}}" width="50%" id="recorded" controls></video>
+                              
                             </div>
                           </div>
                           <div class="col-xs-12 bottom text-center">

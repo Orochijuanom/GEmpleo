@@ -29,6 +29,10 @@ class Curriculo extends Model
         return $this->belongsTo('App\Situacione');
     }
 
+    public function inscritos(){
+        return $this->hasMany('App\Inscrito');
+    }
+
     public function getProfesionAttribute(){
         return $this->profesione;
     }

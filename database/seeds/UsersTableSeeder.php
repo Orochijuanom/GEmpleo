@@ -19,6 +19,14 @@ class UsersTableSeeder extends Seeder
             'activo' => 1
         ]);
 
+        DB::table('users')->insert([
+            'name' => 'juan cruz',
+            'tipouser_id' => 3,
+            'email' => 'empresa@empresa.com',
+            'password' => bcrypt('secret'),
+            'activo' => 1
+        ]);
+
         factory(App\User::class, 20)->create()->each(function ($u) {
             $u->curriculo()->save(factory(App\Curriculo::class)->make());
     });

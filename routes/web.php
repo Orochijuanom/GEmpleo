@@ -70,7 +70,7 @@ Route::group(['prefix' => 'empresas' , 'middleware' => 'empresas'], function() {
         Route::get('/', function() {
             $sectores = App\Sectore::all();
             $departamentos = App\Departamento::all();
-            $municipios = App\Municipio::orderBy('municipio', 'asc')->get();;
+            $municipios = App\Municipio::orderBy('municipio', 'asc')->get();
             $informacion = App\Empresa::where('user_id', Auth::user()->id)->first();
             return view('empresas.informacion')->with([
                 'sectores' => $sectores,
@@ -100,7 +100,16 @@ Route::group(['prefix' => 'empresas' , 'middleware' => 'empresas'], function() {
 
     Route::group(['prefix' => 'ofertas'], function () {
         Route::get('/', function () {
-            return 'ofertas';
+            $ofertas = App\Empresa::where('user_id', Auth::user()->id)->first()->ofertas()->get();
+            return view('empresas.ofertas')->with('ofertas', $ofertas);
+        });
+
+        Route::post('/', 'EmpresasController@ofertas');
+
+        Route::get('/crear', function () {
+            $municipios = App\Municipio::orderBy('municipio', 'asc')->get();
+            $profesiones = App\Profesione::orderBy('profesione')->get();
+            return view('empresas.ofertas_crear')->with(['municipios' => $municipios, 'profesiones' => $profesiones]);
         });
     });
 });
