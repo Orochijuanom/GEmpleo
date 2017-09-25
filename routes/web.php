@@ -88,14 +88,16 @@ Route::group(['prefix' => 'empresas' , 'middleware' => 'empresas'], function() {
 
         Route::get('/{curriculo_id}', function($curriculo_id) {
             $curriculo = App\Curriculo::where('id', $curriculo_id)->first();
-            
+            $ofertas = App\Oferta::where('empresa_id', Auth::user()->empresa->id)->get();
             $formaciones = App\Formacione::where('curriculo_id', $curriculo->id)->get();
             $experiencias = App\Experiencia::where('curriculo_id', $curriculo->id)->get();
             
-            return view('empresas.curriculo')->with(['curriculo' => $curriculo, 'formaciones' => $formaciones, 'experiencias' => $experiencias]);
+            return view('empresas.curriculo')->with(['curriculo' => $curriculo, 'formaciones' => $formaciones, 'experiencias' => $experiencias, 'ofertas' => $ofertas]);
             
             
         })->middleware('vistas');
+
+        Route::post('/oferta', 'EmpresasController@ofertaInscripcion');
     });
 
     Route::group(['prefix' => 'ofertas'], function () {

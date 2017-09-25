@@ -1,6 +1,23 @@
 @extends('layouts.empresas')
 
 @section('content')
+    @if (Session::get('message'))
+        <div class="alert alert-success">
+            {{Session::get('message')}}
+            <br><br>			
+        </div>
+    @endif
+
+    @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            <strong>Whoops!</strong> Hubo Algunos problemas con tu entrada.<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <div class="x_panel">
         <div class="x_title">
@@ -49,7 +66,24 @@
                     </li>
                 </ul>
 
-                <a href="/personas/curriculo/datos-personales" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Editar Curriculo</a>
+                @if(count($ofertas) > 0)
+                    <form role="form" method="POST" enctype="multipart/form-data" action="/empresas/personas/oferta">
+                     {{ csrf_field() }} 
+                        <label>Enviar oferta</label>
+                        <select id="oferta" class="form-control col-md-6 col-xs-12" name="oferta" required>
+                            @foreach($ofertas as $oferta)
+                                <option value="{{$oferta->id}}">{{$oferta->descripcion}}</option>
+                            @endforeach     
+                        </select>
+                        <input type="hidden" name="curriculo" value="{{$curriculo->id}}"/>
+                        
+                        <button type="submit" class="btn btn-success col-md-6 col-xs-12">Enviar</button>
+                       
+                        
+                    </form>
+
+                @endif
+                
                 <br />
             </div>
 

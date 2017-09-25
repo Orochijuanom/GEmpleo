@@ -12,6 +12,7 @@ use App\Municipio;
 use App\Curriculo;
 use App\Profesione;
 use App\OFerta;
+use App\Inscrito;
 
 class EmpresasController extends Controller
 {
@@ -158,5 +159,20 @@ class EmpresasController extends Controller
             }
 
 
+    }
+
+    public function ofertaInscripcion(Request $request){
+        $inscrito = Inscrito::where('oferta_id', $request->oferta)->where('curriculo_id', $request->curriculo)->first();
+        
+        if($inscrito){
+            return redirect()->back()->withErrors(['message' => 'Esta persona ya esta registrada para la oferta']);
+        }else{
+            Inscrito::create([
+                'curriculo_id' => $request->curriculo,
+                'oferta_id' => $request->oferta
+            ]);
+
+            return redirect()->back()->with('message', 'Curriculo inscrito para  la oferta');
+        }
     }
 }

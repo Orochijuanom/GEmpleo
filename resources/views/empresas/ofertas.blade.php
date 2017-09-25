@@ -54,13 +54,9 @@
                                     <td>{{$oferta->profesione->profesione}}</td>
                                     <td>${{$oferta->salario}}</td>
                                     <td>{{$oferta->municipio->municipio}}</td>
-                                    <td>{{$oferta->vacantes}}</td>
-                                    
+                                    <td>{{$oferta->vacantes}}</td> 
                                 </tr>
                             @endforeach
-                        
-                        
-
                     </tbody>
             
                 
