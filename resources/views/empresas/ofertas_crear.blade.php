@@ -116,6 +116,19 @@
                     </div>
                 </div>
 
+                <div class="form-group{{ $errors->has('descripcion') ? ' has-error' : '' }}">
+                    <label for="descripcion" class="control-label col-md-3 col-sm-3 col-xs-12">Descripción de la oferta</label><span class="required">*</span>
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <textarea id="descripcion" class="form-control col-md-7 col-xs-12" name="descripcion" required>{{old('descripcion')}}</textarea>
+                        @if ($errors->has('descripcion'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('descripcion') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
                 
             
             </div>

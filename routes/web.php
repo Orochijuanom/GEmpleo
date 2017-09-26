@@ -30,7 +30,7 @@ Route::get('/email/{email}/confirmation_token/{confirmation_token}', function ($
     }
 });
 
-//Route::get('/home', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
 
 Route::group(['prefix' => 'administrador' , 'middleware' => 'administrador'], function() {
     Route::get('/', function() {
@@ -102,7 +102,12 @@ Route::group(['prefix' => 'empresas' , 'middleware' => 'empresas'], function() {
 
     Route::group(['prefix' => 'ofertas'], function () {
         Route::get('/', function () {
-            $ofertas = App\Empresa::where('user_id', Auth::user()->id)->first()->ofertas()->get();
+            $empresa = App\Empresa::where('user_id', Auth::user()->id)->first();
+            if(!$empresa){
+                return redirect('/empresas/informacion');
+            }
+
+            $ofertas = $empresa->ofertas()->get();
             return view('empresas.ofertas')->with('ofertas', $ofertas);
         });
 
@@ -113,6 +118,15 @@ Route::group(['prefix' => 'empresas' , 'middleware' => 'empresas'], function() {
             $profesiones = App\Profesione::orderBy('profesione')->get();
             return view('empresas.ofertas_crear')->with(['municipios' => $municipios, 'profesiones' => $profesiones]);
         });
+
+        Route::get('/{id}/inscritos', function ($id) {
+            $oferta = App\Oferta::find($id);
+            $inscritos = $oferta->inscritos()->with('curriculo')->get();
+            return view('empresas.inscritos')->with(['oferta' => $oferta, 'inscritos' => $inscritos]);
+        });
+
+        Route::post('/{oferta_id}/curriculo/{curriculo_id}/seleccionar', 'EmpresasController@seleccionar');
+
     });
 });
 
@@ -219,6 +233,17 @@ Route::group(['prefix' => 'personas' , 'middleware' => 'personas'], function() {
     
         
     });
+
+    Route::group(['prefix' => 'ofertas'], function () {
+        Route::get('/', function () {
+            $ofertas = App\Inscrito::where('curriculo_id', Auth::user()->curriculo->id)->with('oferta')->get();
+            return view('personas.ofertas_inscritas')->with('ofertas', $ofertas);
+        });
+        Route::get('/{letra}/buscador/{buscador}/{busqueda?}', 'CurriculoController@ofertas');
+        Route::post('/inscripcion', 'EmpresasController@ofertaInscripcion');
+    });
+
+
 });
 
 

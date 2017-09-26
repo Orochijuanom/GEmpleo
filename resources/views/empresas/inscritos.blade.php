@@ -4,7 +4,7 @@
 
     <div class="x_panel">
         <div class="x_title">
-            <h2>Ofertas</h2>
+            <h2>Oferta {{$oferta->nombre}}</h2>
             <ul class="nav navbar-right panel_toolbox">
                 <li>
                     <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -32,37 +32,48 @@
         @endif
 
         <div class="x_content">
-            @if(count($ofertas) > 0)
+            @if(count($inscritos) > 0)
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Nº</th>
-                            <th>Oferta</th>
+                            <th>Nombres</th>
                             <th>Profesión</th>
+                            @if($oferta->seleccionados < $oferta->vacantes)
+                                <th>Télefono</th>
+                            @endif
                             <th>Salario</th>
                             <th>Municipio</th>
-                            <th>Vacantes</th>
-                            <th>Descripcion</th>
-                            <th>Inscritos</th>
+                            <th>Seleccionado</th>
+                            <th>Opciones</th>
                         
                         </tr>
                     </thead>
                     <tbody>
                         
-                            @foreach($ofertas as $oferta)
+                            @foreach($inscritos as $inscrito)
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
-                                    <td>{{$oferta->nombre}}</td>
-                                    <td>{{$oferta->profesione->profesione}}</td>
-                                    <td>${{$oferta->salario}}</td>
-                                    <td>{{$oferta->municipio->municipio}}</td>
-                                    <td>{{$oferta->vacantes}}</td>
-                                    <td>{{$oferta->descripcion}}</td>
+                                    <td>{{$inscrito->curriculo->nombre}} {{$inscrito->curriculo->apellido}}</td>
+                                    <td>{{$inscrito->curriculo->profesione->profesione}}</td>
+                                    @if($oferta->seleccionados < $oferta->vacantes)
+                                        <td>{{$inscrito->curriculo->telefono}}</td>
+                                    @endif
+                                    
+                                    <td>${{$inscrito->curriculo->salario}}</td>
+                                    <td>{{$inscrito->curriculo->municipio->municipio}}</td>
                                     <td>
-                                        {{count($oferta->inscritos)}}
-                                        @if(count($oferta->inscritos))
-                                            <a class="btn btn-info" href="/empresas/ofertas/{{$oferta->id}}/inscritos">Ver</a>
-                                        @endif
+                                        @if($inscrito->seleccionado == 1)
+                                            Seleccionado
+                                        @else
+                                            Postulado
+                                        @endif 
+                                    </td>
+                                    <td>
+                                        <form action="/empresas/ofertas/{{$inscrito->oferta->id}}/curriculo/{{$inscrito->curriculo->id}}/seleccionar" method="post" class="form-horizontal form-label-left">
+                                            {{ csrf_field() }}
+                                            <button type="submit" class="btn btn-warning">Seleccionar/De-Seleccionar</button>    
+                                        </form>
                                     </td>  
                                 </tr>
                             @endforeach
@@ -75,9 +86,6 @@
                     <strong>Información!</strong> No se encontraton Ofertas registradas                  
                 </div>     
             @endif
-            
-                    
-                     <a href="/empresas/ofertas/crear" class="btn btn-success">Crear Oferta</a>
                 
                 
         </div>

@@ -106,7 +106,7 @@
 																		<td class="mcnImageContent" valign="top" style="padding-right: 9px; padding-left: 9px; padding-top: 0; padding-bottom: 0; text-align:center;">
 																			
 																			
-																			<img align="center" alt="" src="https://gallery.mailchimp.com/14dba25dc5c144846e18d43a8/images/fb9303b8-8f26-4143-91ee-36d4068d09d3.png" width="250" style="max-width:250px; padding-bottom: 0; display: inline !important; vertical-align: bottom;" class="mcnImage">
+																			<img align="center" alt="" src="{{url('/images/logo.png')}}" width="250" style="max-width:250px; padding-bottom: 0; display: inline !important; vertical-align: bottom;" class="mcnImage">
 																			
 																			
 																		</td>

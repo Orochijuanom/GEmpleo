@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Oferta extends Model
 {
-    protected $fillable = ['descripcion', 'empresa_id', 'profesione_id', 'salario', 'municipio_id', 'vacantes'];
+    protected $fillable = ['nombre' ,'descripcion', 'empresa_id', 'profesione_id', 'salario', 'municipio_id', 'vacantes'];
+
+    protected $appends = ['seleccionados'];
 
     public function empresa(){
         return $this->belongsTo('App\Empresa');
@@ -23,4 +25,8 @@ class Oferta extends Model
     public function inscritos(){
         return $this->hasMany('App\Inscrito');
     }
+
+    public function getSeleccionadosAttribute(){
+        return Inscrito::where('oferta_id', $this->id)->where('seleccionado', 1)->count();
+    } 
 }

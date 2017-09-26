@@ -72,7 +72,7 @@
                         <label>Enviar oferta</label>
                         <select id="oferta" class="form-control col-md-6 col-xs-12" name="oferta" required>
                             @foreach($ofertas as $oferta)
-                                <option value="{{$oferta->id}}">{{$oferta->descripcion}}</option>
+                                <option value="{{$oferta->id}}">{{$oferta->nombre}}</option>
                             @endforeach     
                         </select>
                         <input type="hidden" name="curriculo" value="{{$curriculo->id}}"/>

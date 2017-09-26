@@ -39,6 +39,12 @@
     <li><a href="/personas/curriculo/formacion">Formación</a></li>
   </ul>
 </li>
+<li><a><i class="fa fa-money"></i>Ofertas<span class="fa fa-chevron-down"></span></a>
+  <ul class="nav child_menu">
+    <li><a href=" /personas/ofertas/all/buscador/none/">Buscar</a></li>
+    <li><a href=" /personas/ofertas">Ver</a></li>
+  </ul>
+</li>
 @endsection
 
 @section('content')

@@ -4,7 +4,7 @@
 
     <div class="x_panel">
         <div class="x_title">
-            <h2>Ofertas</h2>
+            <h2>Ofertas inscritas</h2>
             <ul class="nav navbar-right panel_toolbox">
                 <li>
                     <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -41,9 +41,9 @@
                             <th>Profesión</th>
                             <th>Salario</th>
                             <th>Municipio</th>
-                            <th>Vacantes</th>
+                            <th>Vacantes Restantes</th>
                             <th>Descripcion</th>
-                            <th>Inscritos</th>
+                            <th>Estado</th>
                         
                         </tr>
                     </thead>
@@ -52,17 +52,23 @@
                             @foreach($ofertas as $oferta)
                                 <tr>
                                     <td>{{$loop->index + 1}}</td>
-                                    <td>{{$oferta->nombre}}</td>
-                                    <td>{{$oferta->profesione->profesione}}</td>
-                                    <td>${{$oferta->salario}}</td>
-                                    <td>{{$oferta->municipio->municipio}}</td>
-                                    <td>{{$oferta->vacantes}}</td>
-                                    <td>{{$oferta->descripcion}}</td>
+                                    <td>{{$oferta->oferta->nombre}}</td>
+                                    <td>{{$oferta->oferta->profesione->profesione}}</td>
+                                    <td>${{$oferta->oferta->salario}}</td>
+                                    <td>{{$oferta->oferta->municipio->municipio}}</td>
+                                    <td>{{$oferta->oferta->vacantes - $oferta->oferta->seleccionados}}</td>
+                                    <td>{{$oferta->oferta->descripcion}}</td>
                                     <td>
-                                        {{count($oferta->inscritos)}}
-                                        @if(count($oferta->inscritos))
-                                            <a class="btn btn-info" href="/empresas/ofertas/{{$oferta->id}}/inscritos">Ver</a>
-                                        @endif
+                                        @if($oferta->seleccionado == 1)
+                                            Seleccionado
+                                        @else
+                                            @if($oferta->oferta->seleccionados < $oferta->oferta->vacantes)
+                                                Postulado
+                                            @else
+                                                Rechazado
+                                            @endif
+                                            
+                                        @endif 
                                     </td>  
                                 </tr>
                             @endforeach

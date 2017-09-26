@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use File;
 use Storage;
+use Redirect;
 
 use App\Empresa;
 use App\Municipio;
@@ -139,22 +140,23 @@ class EmpresasController extends Controller
         $this->validate($request, [
             'oferta' =>'required',
             'salario' => 'required|numeric',
-            'vacantes' => 'required|numeric'
+            'vacantes' => 'required|numeric',
+            'descripcion' => 'required'
         ]);
 
         try{
             $oferta = Oferta::create([
                 'empresa_id' => Auth::user()->empresa->id,
-                'descripcion' => $request->oferta, 
+                'nombre' => $request->oferta, 
                 'profesione_id' => $request->profesion,
                 'salario' => $request->salario,
                 'municipio_id' => $request->municipio,
-                'vacantes' => $request->vacantes
+                'vacantes' => $request->vacantes,
+                'descripcion' => $request->descripcion
             ]);
 
             return redirect('/empresas/ofertas')->with('message', 'La oferta laboral ha sido creada con exito');
         }catch(\PDOException $e){
-            
                 return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
             }
 
@@ -165,14 +167,34 @@ class EmpresasController extends Controller
         $inscrito = Inscrito::where('oferta_id', $request->oferta)->where('curriculo_id', $request->curriculo)->first();
         
         if($inscrito){
-            return redirect()->back()->withErrors(['message' => 'Esta persona ya esta registrada para la oferta']);
+            return redirect()->back()->withErrors(['message' => 'Ya se encuentra inscrito para la oferta']);
         }else{
             Inscrito::create([
                 'curriculo_id' => $request->curriculo,
                 'oferta_id' => $request->oferta
             ]);
 
-            return redirect()->back()->with('message', 'Curriculo inscrito para  la oferta');
+            return redirect()->back()->with('message', 'Se ha inscrito para  la oferta');
         }
+    }
+
+    public function seleccionar($oferta_id, $curriculo_id){
+
+        $inscrito = Inscrito::where('oferta_id', $oferta_id)->where('curriculo_id', $curriculo_id)->first();
+        
+        if($inscrito->seleccionado == 1){
+            $inscrito->seleccionado = 0;
+        }else{
+            if($inscrito->oferta->seleccionados < $inscrito->oferta->vacantes){
+                $inscrito->seleccionado = 1;
+            }else{
+                return redirect()->back()->withErrors(['message' => 'Ya ha alcanzado el numero maximo de personas para esta oferta']);
+            }
+            
+        }
+
+        $inscrito->save();
+
+        return redirect()->back()->with('message', 'El estado de seleccion de la persona '.$inscrito->curriculo->nombre.' '.$inscrito->curriculo->apellido.' ha sido cambiado');
     }
 }

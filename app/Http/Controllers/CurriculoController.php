@@ -6,10 +6,14 @@ use Illuminate\Http\Request;
 use Auth;
 use File;
 use Storage;
+use Redirect;
 
 use App\Curriculo;
 use App\Experiencia;
 use App\Formacione;
+use App\Oferta;
+use App\Profesione;
+use App\Municipio;
 
 class CurriculoController extends Controller
 {
@@ -129,71 +133,118 @@ class CurriculoController extends Controller
                 return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
             }
             
-        }
+    }
 
-        public function experienciaLaboral(Request $request){
-            $this->validate($request, [
-                'empresa' => 'required',
-                'departamento_id' => 'required|numeric',
-                'sectore_id' => 'required|numeric',
-                'cargo' => 'required',
-                'area_id' => 'required|numeric',
-                'inicio' => 'required|date',
-                'fin' => 'nullable|date',
-                'descripcion' => 'required'
+    public function experienciaLaboral(Request $request){
+        $this->validate($request, [
+            'empresa' => 'required',
+            'departamento_id' => 'required|numeric',
+            'sectore_id' => 'required|numeric',
+            'cargo' => 'required',
+            'area_id' => 'required|numeric',
+            'inicio' => 'required|date',
+            'fin' => 'nullable|date',
+            'descripcion' => 'required'
+        ]);
+
+        $curriculo = Curriculo::where('user_id', Auth::user()->id)->first();
+
+        try{
+            Experiencia::create([
+                'curriculo_id' => $curriculo->id,
+                'empresa' => $request['empresa'],
+                'departamento_id' => $request['departamento_id'],
+                'sectore_id' => $request['sectore_id'],
+                'cargo' => $request['cargo'],
+                'area_id' => $request['area_id'],
+                'inicio' => $request['inicio'],
+                'fin' => $request['fin'],
+                'continua' => $request['continua'],
+                'descripcion' => $request['descripcion']
             ]);
 
-            $curriculo = Curriculo::where('user_id', Auth::user()->id)->first();
-
-            try{
-                Experiencia::create([
-                    'curriculo_id' => $curriculo->id,
-                    'empresa' => $request['empresa'],
-                    'departamento_id' => $request['departamento_id'],
-                    'sectore_id' => $request['sectore_id'],
-                    'cargo' => $request['cargo'],
-                    'area_id' => $request['area_id'],
-                    'inicio' => $request['inicio'],
-                    'fin' => $request['fin'],
-                    'continua' => $request['continua'],
-                    'descripcion' => $request['descripcion']
-                ]);
-
-            }catch(\PDOException $e){
-                return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
-            }
-
-            return redirect()->back()->with('message', 'Sus datos personales han sido almacenados con exito')->withInput();
+        }catch(\PDOException $e){
+            return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
         }
 
-        public function formacion(Request $request){
-            $this->validate($request, [
-                'centro_educativo' => 'required',
-                'profesione_id' => 'required',
-                'nivele_id' => 'required|numeric',
-                'inicio' => 'required|date',
-                'fin' => 'nullable|date'
+        return redirect()->back()->with('message', 'Sus datos personales han sido almacenados con exito')->withInput();
+    }
+
+    public function formacion(Request $request){
+        $this->validate($request, [
+            'centro_educativo' => 'required',
+            'profesione_id' => 'required',
+            'nivele_id' => 'required|numeric',
+            'inicio' => 'required|date',
+            'fin' => 'nullable|date'
+        ]);
+
+        $curriculo = Curriculo::where('user_id', Auth::user()->id)->first();
+
+        try{
+            Formacione::create([
+                'curriculo_id' => $curriculo->id,
+                'centro_educativo' => $request['centro_educativo'],
+                'profesione_id' => $request['profesione_id'],
+                'nivele_id' => $request['nivele_id'],
+                'inicio' => $request['inicio'],
+                'fin' => $request['fin'],
+                'continua' => $request['continua'],
             ]);
 
-            $curriculo = Curriculo::where('user_id', Auth::user()->id)->first();
-
-            try{
-                Formacione::create([
-                    'curriculo_id' => $curriculo->id,
-                    'centro_educativo' => $request['centro_educativo'],
-                    'profesione_id' => $request['profesione_id'],
-                    'nivele_id' => $request['nivele_id'],
-                    'inicio' => $request['inicio'],
-                    'fin' => $request['fin'],
-                    'continua' => $request['continua'],
-                ]);
-
-            }catch(\PDOException $e){
-                dd($e);
-                return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
-            }
-
-            return redirect()->back()->with('message', 'Sus datos personales han sido almacenados con exito');
-        
+        }catch(\PDOException $e){
+            dd($e);
+            return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
         }
+
+        return redirect()->back()->with('message', 'Sus datos personales han sido almacenados con exito');
+    
+    }
+
+    public function ofertas($letra, $buscador, $busqueda = null){
+        $curriculo = Curriculo::where('user_id', Auth::user()->id)->first();
+        if($curriculo == null){
+            return redirect('/personas/curriculo/datos-personales');
+        }else{
+            if(isset($_GET['buscador'])){
+                return Redirect::to('/personas/ofertas/'.$letra.'/buscador/'.$_GET['buscador'].'/'.$_GET['busqueda']);
+            }
+            if($letra == 'all'){
+                
+                if($buscador == 'municipio'){
+                    
+                    $municipios = Municipio::where('municipio', 'like', '%'.$busqueda.'%')->pluck('id');
+                    $ofertas = Oferta::whereIn('municipio_id', $municipios)->orderBy('descripcion', 'asc')->paginate('6');
+
+                }elseif($buscador == 'profesion'){
+                    $profesiones = Profesione::where('profesione', 'like', '%'.$busqueda.'%')->pluck('id');
+                    $ofertas = Oferta::whereIn('profesione_id', $profesiones)->orderBy('descripcion', 'asc')->paginate('6');
+                }elseif($buscador == 'salario'){
+                    $ofertas = Oferta::where('salario', '<', $busqueda)->orderBy('descripcion', 'asc')->paginate('6');
+                }else{
+                    $ofertas = Oferta::orderBy('descripcion', 'asc')->paginate('6');
+                }
+            }else{
+                if($buscador == 'municipio'){
+                    
+                    $municipios = Municipio::where('municipio', 'like', '%'.$busqueda.'%')->pluck('id');
+                    $ofertas = Oferta::where('descripcion', 'like', $letra.'%')->whereIn('municipio_id', $municipios)->orderBy('descripcion', 'asc')->paginate('6');
+
+                }elseif($buscador == 'profesion'){
+                    $profesiones = Profesione::where('profesione', 'like', '%'.$busqueda.'%')->pluck('id');
+                    $ofertas = Oferta::where('descripcion', 'like', $letra.'%')->whereIn('profesione_id', $profesiones)->orderBy('descripcion', 'asc')->paginate('6');
+                }elseif($buscador == 'salario'){
+                    $ofertas = Oferta::where('descripcion', 'like', $letra.'%')->where('salario', '<', $busqueda)->orderBy('descripcion', 'asc')->paginate('6');
+                }else{
+                    $ofertas = Oferta::where('descripcion', 'like', $letra.'%')->orderBy('descripcion', 'asc')->paginate('6');
+                }
+                
+
+            }
+            
+            
+            return view('personas.ofertas')->with(['ofertas' => $ofertas, 'letra' => $letra, 'buscador' => $buscador, 'busqueda' => $busqueda]);
+        }
+
+    }
 }
