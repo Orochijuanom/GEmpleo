@@ -1,4 +1,4 @@
-@extends('layouts.empresas')
+@extends('layouts.personas')
 
 @section('content')
 
@@ -41,6 +41,7 @@
                             <th>Profesión</th>
                             <th>Salario</th>
                             <th>Municipio</th>
+                            <th>Prueba Psicotecnica</th>
                             <th>Vacantes Restantes</th>
                             <th>Descripcion</th>
                             <th>Estado</th>
@@ -56,6 +57,16 @@
                                     <td>{{$oferta->oferta->profesione->profesione}}</td>
                                     <td>${{$oferta->oferta->salario}}</td>
                                     <td>{{$oferta->oferta->municipio->municipio}}</td>
+                                    <td>
+                                        @if(count($oferta->respuestas) > 0)
+                                            Ya respondido
+                                        @elseif(count($oferta->oferta->preguntas) > 0)
+                                            <a class="btn btn-warning" href="/personas/ofertas/{{$oferta->id}}/prueba">Tomar Prueba</a>
+                                        @else
+                                            No se han configurado preguntas
+                                        @endif
+                                        
+                                    </td>
                                     <td>{{$oferta->oferta->vacantes - $oferta->oferta->seleccionados}}</td>
                                     <td>{{$oferta->oferta->descripcion}}</td>
                                     <td>
@@ -81,9 +92,6 @@
                     <strong>Información!</strong> No se encontraton Ofertas registradas                  
                 </div>     
             @endif
-            
-                    
-                     <a href="/empresas/ofertas/crear" class="btn btn-success">Crear Oferta</a>
                 
                 
         </div>

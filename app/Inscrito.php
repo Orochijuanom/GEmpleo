@@ -15,4 +15,8 @@ class Inscrito extends Model
     public function oferta(){
         return $this->belongsTo('App\Oferta');
     }
+
+    public function respuestas(){
+        return $this->hasMany('App\Respuesta');
+    }
 }

@@ -14,6 +14,8 @@ use App\Formacione;
 use App\Oferta;
 use App\Profesione;
 use App\Municipio;
+use App\Inscrito;
+use App\Respuesta;
 
 class CurriculoController extends Controller
 {
@@ -193,7 +195,6 @@ class CurriculoController extends Controller
             ]);
 
         }catch(\PDOException $e){
-            dd($e);
             return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
         }
 
@@ -246,5 +247,26 @@ class CurriculoController extends Controller
             return view('personas.ofertas')->with(['ofertas' => $ofertas, 'letra' => $letra, 'buscador' => $buscador, 'busqueda' => $busqueda]);
         }
 
+    }
+
+    public function storePrueba(Request $request, $oferta_id){
+
+
+        $oferta = Oferta::find($oferta_id);
+        $preguntas =  $oferta->preguntas()->get();
+        $inscrito = Inscrito::where('oferta_id', $oferta_id)->where('curriculo_id', Auth::user()->curriculo->id)->first();
+        foreach($preguntas as $pregunta){
+            try{
+                Respuesta::Create([
+                    'opcione_id' => $request[$pregunta->id],
+                    'inscrito_id' => $inscrito->id
+                ]);
+            }catch(\PDOException $e){
+                return redirect('/personas/ofertas')->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
+            }
+            
+        }
+
+        return redirect('/personas/ofertas')->with('message', 'Prueba psicotecnica para la oferta '.$oferta->nombre.' ha sido almacenada');
     }
 }

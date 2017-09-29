@@ -267,12 +267,32 @@ Route::group(['prefix' => 'personas' , 'middleware' => 'personas'], function() {
 
     Route::group(['prefix' => 'ofertas'], function () {
         Route::get('/', function () {
+            $curriculo = App\Curriculo::where('user_id', Auth::user()->id)->first();
+            if($curriculo == null){
+                return redirect('/personas/curriculo/datos-personales')->withErrors(['error' => 'Debe Crear su curriculo primero']);
+
+            }
             $ofertas = App\Inscrito::where('curriculo_id', Auth::user()->curriculo->id)->with('oferta')->get();
             return view('personas.ofertas_inscritas')->with('ofertas', $ofertas);
         });
         Route::get('/{letra}/buscador/{buscador}/{busqueda?}', 'CurriculoController@ofertas');
         Route::post('/inscripcion', 'EmpresasController@ofertaInscripcion');
+
+        Route::get('/{oferta_id}/prueba', function ($id) {
+            $curriculo = App\Curriculo::where('user_id', Auth::user()->id)->first();
+            if($curriculo == null){
+                return redirect('/personas/curriculo/datos-personales')->withErrors(['error' => 'Debe Crear su curriculo primero']);
+
+            }
+            $oferta = App\Oferta::find($id);
+    
+            return view('personas.prueba')->with('oferta', $oferta);
+        });
+
+        Route::post('/{oferta_id}/prueba', 'CurriculoController@storePrueba');
     });
+
+    
 
 
 });

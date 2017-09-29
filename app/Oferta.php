@@ -26,6 +26,10 @@ class Oferta extends Model
         return $this->hasMany('App\Inscrito');
     }
 
+    public function preguntas(){
+        return $this->hasMany('App\Pregunta');
+    }
+
     public function getSeleccionadosAttribute(){
         return Inscrito::where('oferta_id', $this->id)->where('seleccionado', 1)->count();
     } 
