@@ -15,9 +15,14 @@ class CreateRespuestasTable extends Migration
     {
         Schema::create('respuestas', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('pregunta_id')->unsigned();
             $table->integer('opcione_id')->unsigned();
             $table->integer('inscrito_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('pregunta_id')
+            ->references('id')->on('preguntas')
+            ->onDelete('restrict');
 
             $table->foreign('opcione_id')
             ->references('id')->on('opciones')

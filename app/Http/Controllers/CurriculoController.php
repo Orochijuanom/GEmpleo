@@ -258,6 +258,7 @@ class CurriculoController extends Controller
         foreach($preguntas as $pregunta){
             try{
                 Respuesta::Create([
+                    'pregunta_id' => $pregunta->id,
                     'opcione_id' => $request[$pregunta->id],
                     'inscrito_id' => $inscrito->id
                 ]);

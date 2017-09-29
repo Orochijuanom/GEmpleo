@@ -44,6 +44,7 @@
                             @endif
                             <th>Salario</th>
                             <th>Municipio</th>
+                            <th>Prueba Psicotecnica</th>
                             <th>Seleccionado</th>
                             <th>Opciones</th>
                         
@@ -62,6 +63,15 @@
                                     
                                     <td>${{$inscrito->curriculo->salario}}</td>
                                     <td>{{$inscrito->curriculo->municipio->municipio}}</td>
+                                    <td>
+                                        @if(count($inscrito->respuestas) <= 0)
+                                            No ha sido respondida
+                                        @elseif(count($inscrito->oferta->preguntas) > 0)
+                                            <a class="btn btn-warning" href="/empresas/ofertas/inscritos/{{$inscrito->id}}">Ver Respuestas</a>
+                                        @else
+                                            No se han configurado preguntas
+                                        @endif
+                                    </td>
                                     <td>
                                         @if($inscrito->seleccionado == 1)
                                             Seleccionado

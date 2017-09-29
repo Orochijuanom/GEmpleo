@@ -125,6 +125,14 @@ Route::group(['prefix' => 'empresas' , 'middleware' => 'empresas'], function() {
             return view('empresas.inscritos')->with(['oferta' => $oferta, 'inscritos' => $inscritos]);
         });
 
+        Route::get('/inscritos/{inscrito_id}', function ($id) {
+            $inscrito = App\Inscrito::find($id);
+            $preguntas = $inscrito->oferta->preguntas()->get();
+            $respuestas = $inscrito->respuestas()->get();
+
+            return view('empresas.prueba')->with(['preguntas' => $preguntas, 'respuestas' => $respuestas]);
+        });
+
         Route::post('/{oferta_id}/curriculo/{curriculo_id}/seleccionar', 'EmpresasController@seleccionar');
 
         Route::get('/{oferta_id}/preguntas', function ($id) {
