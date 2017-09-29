@@ -119,13 +119,44 @@ Route::group(['prefix' => 'empresas' , 'middleware' => 'empresas'], function() {
             return view('empresas.ofertas_crear')->with(['municipios' => $municipios, 'profesiones' => $profesiones]);
         });
 
-        Route::get('/{id}/inscritos', function ($id) {
+        Route::get('/{oferta_id}/inscritos', function ($id) {
             $oferta = App\Oferta::find($id);
             $inscritos = $oferta->inscritos()->with('curriculo')->get();
             return view('empresas.inscritos')->with(['oferta' => $oferta, 'inscritos' => $inscritos]);
         });
 
         Route::post('/{oferta_id}/curriculo/{curriculo_id}/seleccionar', 'EmpresasController@seleccionar');
+
+        Route::get('/{oferta_id}/preguntas', function ($id) {
+            $oferta = App\Oferta::find($id);
+            $preguntas = App\Pregunta::where('oferta_id', $id)->get();
+            return view('empresas.preguntas')->with(['oferta' => $oferta, 'preguntas' => $preguntas]);
+        });
+        
+        Route::post('/preguntas', 'EmpresasController@storePregunta');
+
+        Route::get('/preguntas/{pregunta_id}/opciones', function ($id) {
+            $pregunta = App\Pregunta::find($id);
+            $opciones = App\Opcione::where('pregunta_id', $id)->get();
+            return view('empresas.opciones')->with(['pregunta' => $pregunta, 'opciones' => $opciones]);
+        });
+
+        Route::post('/preguntas/opciones', 'EmpresasController@storeOpcion');
+
+        Route::get('/preguntas/{pregunta_id}/editar', function ($id) {
+            $pregunta = App\Pregunta::find($id);
+
+            return view('empresas.preguntas_editar')->with('pregunta', $pregunta);
+        });
+
+        Route::put('/preguntas/editar', 'EmpresasController@editPregunta');
+
+        Route::get('/preguntas/opciones/{opcion_id}/editar', function ($id) {
+            $opcion = App\Opcione::find($id);
+            return view('empresas.opciones_editar')->with('opcion', $opcion);
+        });
+
+        Route::put('/preguntas/opciones/editar', 'EmpresasController@editOpcion');
 
     });
 });

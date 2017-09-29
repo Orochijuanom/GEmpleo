@@ -44,6 +44,7 @@
                             <th>Vacantes</th>
                             <th>Descripcion</th>
                             <th>Inscritos</th>
+                            <th>Prueba Psicotecnica</th>
                         
                         </tr>
                     </thead>
@@ -63,6 +64,9 @@
                                         @if(count($oferta->inscritos))
                                             <a class="btn btn-info" href="/empresas/ofertas/{{$oferta->id}}/inscritos">Ver</a>
                                         @endif
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning" href="/empresas/ofertas/{{$oferta->id}}/preguntas">Preguntas</a>
                                     </td>  
                                 </tr>
                             @endforeach

@@ -12,8 +12,10 @@ use App\Empresa;
 use App\Municipio;
 use App\Curriculo;
 use App\Profesione;
-use App\OFerta;
+use App\Oferta;
 use App\Inscrito;
+use App\Pregunta;
+use App\Opcione;
 
 class EmpresasController extends Controller
 {
@@ -158,7 +160,7 @@ class EmpresasController extends Controller
             return redirect('/empresas/ofertas')->with('message', 'La oferta laboral ha sido creada con exito');
         }catch(\PDOException $e){
                 return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
-            }
+        }
 
 
     }
@@ -196,5 +198,87 @@ class EmpresasController extends Controller
         $inscrito->save();
 
         return redirect()->back()->with('message', 'El estado de seleccion de la persona '.$inscrito->curriculo->nombre.' '.$inscrito->curriculo->apellido.' ha sido cambiado');
+    }
+
+    public function storePregunta(Request $request){
+        $this->validate($request,  [
+            'pregunta' => 'required',
+            'oferta' => 'required',
+        ]);
+
+        try{
+            Pregunta::create([
+                'descripcion' => $request->pregunta,
+                'oferta_id' => $request->oferta
+            ]);
+
+            return redirect()->back()->with('message', 'La pregunta ha sido creada');
+
+        }catch(\PDOException $e){
+                return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
+        }
+
+
+    }
+
+    public function storeOpcion(Request $request){
+        $this->validate($request,  [
+            'opcion' => 'required',
+            'pregunta' => 'required',
+        ]);
+
+        try{
+            Opcione::create([
+                'descripcion' => $request->opcion,
+                'pregunta_id' => $request->pregunta
+            ]);
+
+            return redirect()->back()->with('message', 'La opcion ha sido creada');
+
+        }catch(\PDOException $e){
+            return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
+        }
+
+
+    }
+
+    public function editPregunta(Request $request){
+        $this->validate($request,  [
+            'pregunta' => 'required',
+            'pregunta_id' => 'required',
+        ]);
+
+        try{
+            $pregunta = Pregunta::find($request->pregunta_id);
+            $pregunta->descripcion = $request->pregunta;
+            $pregunta->save();
+
+            return redirect()->back()->with('message', 'La pregunta ha sido editada');
+
+        }catch(\PDOException $e){
+                return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
+        }
+
+
+    }
+
+    public function editOpcion(Request $request){
+        $this->validate($request,  [
+            'opcion' => 'required',
+            'opcion_id' => 'required',
+        ]);
+
+        try{
+            $opcion = Opcione::find($request->opcion_id);
+            $opcion->descripcion = $request->opcion;
+            $opcion->save();
+
+            return redirect()->back()->with('message', 'La opcion ha sido editada');
+
+        }catch(\PDOException $e){
+                return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
+        }
+
+
     }
 }

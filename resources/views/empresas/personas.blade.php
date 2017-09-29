@@ -108,7 +108,6 @@
                               <ul class="list-unstyled">
                                 <li><i class="fa fa-gift"></i> {{$curriculo->fecha_nacimiento->age}} Años </li>
                                 <li><i class="fa fa-map-marker"></i> {{$curriculo->municipio->municipio}}, {{$curriculo->municipio->departamento->departamento}}, {{$curriculo->municipio->departamento->paise->pais}}</li>
-                                <li><i class="fa fa-home"></i> {{$curriculo->direccion}} </li>
                                 <li><i class="fa fa-money"></i> $ {{$curriculo->salario}} </li>  
                               </ul>
                             </div>
