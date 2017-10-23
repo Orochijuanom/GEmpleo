@@ -7,7 +7,7 @@ use Storage;
 
 class Curriculo extends Model
 {
-    protected $fillable = ['user_id', 'nombre', 'apellido', 'identificacione_id', 'numero_identificacion', 'fecha_nacimiento', 'estado_id', 'telefono', 'municipio_id', 'direccion', 'paise_id', 'discapacidad', 'foto', 'video', 'profesione_id', 'descripcion', 'situacione_id', 'salario', 'disponibilidad_viajar', 'disponibilidad_cambio_residencia'];
+    protected $fillable = ['user_id', 'nombre', 'apellido', 'identificacione_id', 'numero_identificacion', 'fecha_nacimiento', 'estado_id', 'telefono', 'municipio_id', 'direccion', 'paise_id', 'discapacidad', 'foto', 'video', 'profesione_id', 'descripcion', 'ingles', 'situacione_id', 'salario', 'disponibilidad_viajar', 'disponibilidad_cambio_residencia'];
     protected $appends = ['profesion'];
     protected $dates = [
         'fecha_nacimiento'

@@ -24,6 +24,7 @@ class CreateEmpresasTable extends Migration
             $table->integer('municipio_id')->unsigned();
             $table->string('direccion');
             $table->text('descripcion');
+            $table->string('representante');
             $table->integer('limite')->default(0);
             $table->timestamps();
 

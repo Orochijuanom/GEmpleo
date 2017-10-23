@@ -64,6 +64,10 @@
                     <li>
                         <i class="fa fa-briefcase user-profile-icon"></i> {{$curriculo->profesione->profesione}}
                     </li>
+
+                    <li>
+                        <i class="fa fa-language user-profile-icon"></i> {{$curriculo->ingles}}
+                    </li>
                 </ul>
 
                 @if(count($ofertas) > 0)

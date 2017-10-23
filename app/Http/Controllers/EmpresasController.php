@@ -30,6 +30,7 @@ class EmpresasController extends Controller
             'municipio_id' => 'required|numeric',
             'direccion' => 'required',
             'descripcion' => 'required',
+            'representante' => 'required',
         ]);
 
         $informacion = Empresa::where('user_id', Auth::user()->id)->first();
@@ -62,7 +63,8 @@ class EmpresasController extends Controller
                     'telefono' => $request['telefono'],
                     'municipio_id' => $request['municipio_id'],
                     'direccion' => $request['direccion'],
-                    'descripcion' => $request['descripcion']
+                    'descripcion' => $request['descripcion'],
+                    'representante' => $request['representante']
                 ]);
 
                 return redirect()->back()->with('message', 'Sus datos personales han sido almacenados con exito');
@@ -81,6 +83,8 @@ class EmpresasController extends Controller
                     $informacion->municipio_id = $request['municipio_id'];
                     $informacion->direccion = $request['direccion'];
                     $informacion->descripcion = $request['descripcion'];
+                    $informacion->representante = $request['representante'];
+
                     $informacion->save();
 
                     return redirect()->back()->with('message', 'Sus datos personales han sido almacenados con exito');

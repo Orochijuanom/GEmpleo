@@ -66,6 +66,20 @@
                     </div>
                 </div>
 
+                <div class="form-group{{ $errors->has('representante') ? ' has-error' : '' }}">
+                    <label for="representante" class="control-label col-md-3 col-sm-3 col-xs-12">Nombre del representante legal</label><span class="required">*</span>
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <input id="representante" type="text" class="form-control col-md-7 col-xs-12" name="representante" value="@if(isset($informacion->representante)){{$informacion->representante}}@else{{old('representante')}}@endif" required autofocus>
+
+                        @if ($errors->has('representante'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('representante') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
                 <div class="form-group{{ $errors->has('nit') ? ' has-error' : '' }}">
                     <label for="nit" class="control-label col-md-3 col-sm-3 col-xs-12">Nit</label><span class="required">*</span>
 

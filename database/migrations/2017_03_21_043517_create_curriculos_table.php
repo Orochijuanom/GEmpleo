@@ -31,6 +31,7 @@ class CreateCurriculosTable extends Migration
             $table->string('video')->nullable();
             $table->integer('profesione_id')->unsigned();
             $table->text('descripcion');
+            $table->string('ingles');
             $table->integer('situacione_id')->unsigned();
             $table->integer('salario');
             $table->boolean('disponibilidad_viajar');

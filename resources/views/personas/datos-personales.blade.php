@@ -286,6 +286,26 @@
                     </div>
                 </div>
 
+                <div class="form-group{{ $errors->has('ingles') ? ' has-error' : '' }}">
+                    <label for="paise_id" class="control-label col-md-3 col-sm-3 col-xs-12">Nivel de ingles</label><span class="required">*</span>
+
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <select id="ingles" class="form-control col-md-7 col-xs-12" name="ingles" required>    
+                            <option value="bajo" @if(isset($curriculo)) @if($curriculo->ingles == 'bajo') selected @endif @else @if('bajo' == old('ingles')) selected @endif @endif>Bajo</option>
+                            <option value="medio" @if(isset($curriculo)) @if($curriculo->ingles == 'medio') selected @endif @else @if('medio' == old('ingles')) selected @endif @endif>Medio</option>
+                            <option value="alto" @if(isset($curriculo)) @if($curriculo->ingles == 'alto') selected @endif @else @if('alto' == old('ingles')) selected @endif @endif>Alto</option>
+
+
+                        </select>
+
+                        @if ($errors->has('ingles'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('ingles') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
                 <div class="form-group{{ $errors->has('salario') ? ' has-error' : '' }}">
                     <label for="salario" class="control-label col-md-3 col-sm-3 col-xs-12">Salario</label><span class="required">*</span>
 

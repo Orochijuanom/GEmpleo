@@ -47,6 +47,10 @@
                     <li>
                         <i class="fa fa-briefcase user-profile-icon"></i> {{$curriculo->profesione->profesione}}
                     </li>
+
+                    <li>
+                        <i class="fa fa-language user-profile-icon"></i> {{$curriculo->ingles}}
+                    </li>
                 </ul>
 
                 <a href="/personas/curriculo/datos-personales" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Editar Curriculo</a>
