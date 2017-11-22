@@ -63,6 +63,9 @@
                                             <p>
                                                 {{$experiencia->descripcion}}
                                             </p>
+                                            <p>
+                                                <a class="btn btn-primary" href="/personas/curriculo/experiencia-laboral/{{$experiencia->id}}">Editar</a>
+                                            </p>
                                         </div>
                                     </div>
                                 </li>
@@ -227,7 +230,7 @@
                                     </button>
                                 </div>
                             </div>
-                        </form>
+                    </form>
                 </div>
 
             </div>

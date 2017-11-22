@@ -246,8 +246,22 @@ Route::group(['prefix' => 'personas' , 'middleware' => 'personas'], function() {
 
         });
 
+        Route::get('/experiencia-laboral/{id}', function ($id) {
+            $experiencia = App\Experiencia::where('id', $id)->first();
+            $departamentos = App\Departamento::orderBy('departamento')->get();
+            $sectores = App\Sectore::all();
+            $areas = App\Area::all();
+            return view('personas.experiencia-laboral-edit')->with([
+                'experiencia' => $experiencia, 
+                'departamentos' => $departamentos, 
+                'sectores' => $sectores, 'areas' => $areas
+            ]);
+        });
+
         Route::post('/experiencia-laboral', 'CurriculoController@experienciaLaboral');
 
+        Route::put('/experiencia-laboral/{id}/edit', 'CurriculoController@experienciaLaboralEdit');
+        
         Route::get('/formacion', function(){
         $curriculo = App\Curriculo::where('user_id', Auth::user()->id)->first();
         if($curriculo == null){

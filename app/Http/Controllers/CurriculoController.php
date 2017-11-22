@@ -174,6 +174,38 @@ class CurriculoController extends Controller
         return redirect()->back()->with('message', 'Sus datos personales han sido almacenados con exito')->withInput();
     }
 
+    public function experienciaLaboralEdit($id, Request $request){
+        $this->validate($request, [
+            'empresa' => 'required',
+            'departamento_id' => 'required|numeric',
+            'sectore_id' => 'required|numeric',
+            'cargo' => 'required',
+            'area_id' => 'required|numeric',
+            'inicio' => 'required|date',
+            'fin' => 'nullable|date',
+            'descripcion' => 'required'
+        ]); 
+
+        $experiencia = Experiencia::where('id', $id)->first();
+
+        try{
+            $experiencia->empresa = $request['empresa'];
+            $experiencia->departamento_id = $request['departamento_id'];
+            $experiencia->sectore_id = $request['sectore_id'];
+            $experiencia->cargo = $request['cargo'];
+            $experiencia->area_id = $request['area_id'];
+            $experiencia->inicio = $request['inicio'];
+            $experiencia->fin = $request['fin'];
+            $experiencia->continua = $request['continua'];
+            $experiencia->descripcion = $request['descripcion'];
+            $experiencia->save();
+        }catch(\PDOException $e){
+            return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
+        }
+
+        return redirect('/personas/curriculo/experiencia-laboral')->with('message', 'Sus experiencia laboral ha sido exito')->withInput();
+    }
+
     public function formacion(Request $request){
         $this->validate($request, [
             'centro_educativo' => 'required',
