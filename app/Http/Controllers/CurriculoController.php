@@ -203,7 +203,7 @@ class CurriculoController extends Controller
             return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
         }
 
-        return redirect('/personas/curriculo/experiencia-laboral')->with('message', 'Sus experiencia laboral ha sido exito')->withInput();
+        return redirect('/personas/curriculo/experiencia-laboral')->with('message', 'Sus experiencia laboral ha editada sido exito')->withInput();
     }
 
     public function formacion(Request $request){
@@ -234,6 +234,34 @@ class CurriculoController extends Controller
 
         return redirect()->back()->with('message', 'Sus datos personales han sido almacenados con exito');
     
+    }
+
+    public function formacionEdit($id, Request $request){
+        $this->validate($request, [
+            'centro_educativo' => 'required',
+            'profesione_id' => 'required',
+            'nivele_id' => 'required|numeric',
+            'inicio' => 'required|date',
+            'fin' => 'nullable|date'
+        ]);
+
+        $formacione = Formacione::where('id', $id)->first();
+
+        try{
+        
+            $formacione->centro_educativo = $request['centro_educativo'];
+            $formacione->profesione_id = $request['profesione_id'];
+            $formacione->nivele_id = $request['nivele_id'];
+            $formacione->inicio = $request['inicio'];
+            $formacione->fin = $request['fin'];
+            $formacione->continua = $request['continua'];
+            $formacione->save();
+
+        }catch(\PDOException $e){
+            return redirect()->back()->withErrors(['message' => 'Ha ocurrido un error y sus datos no se han podido guardar']);
+        }
+
+        return redirect('/personas/curriculo/formacion')->with('message', 'Su formación ha editada con sido exito')->withInput();
     }
 
     public function ofertas($letra, $buscador, $busqueda = null){

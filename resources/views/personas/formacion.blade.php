@@ -21,7 +21,7 @@
         </div>
     @endif
     <div class="x_title">
-        <h2>Experiencia laboral</h2>
+        <h2>Formación</h2>
         <div class="clearfix"></div>
     </div>
     <div class="x_content">
@@ -50,6 +50,9 @@
                                             </div>
                                             <p class="excerpt">
                                                 <strong>Nivel Educativo:</strong> {{$formacion->nivele->nivel}}
+                                            </p>
+                                            <p>
+                                                <a class="btn btn-primary" href="/personas/curriculo/formacion/{{$formacion->id}}">Editar</a>
                                             </p>
                                         </div>
                                     </div>

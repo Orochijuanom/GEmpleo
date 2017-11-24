@@ -263,23 +263,38 @@ Route::group(['prefix' => 'personas' , 'middleware' => 'personas'], function() {
         Route::put('/experiencia-laboral/{id}/edit', 'CurriculoController@experienciaLaboralEdit');
         
         Route::get('/formacion', function(){
-        $curriculo = App\Curriculo::where('user_id', Auth::user()->id)->first();
-        if($curriculo == null){
-            return redirect('/personas/curriculo/datos-personales')->withErrors(['error' => 'Debe Crear su curriculo primero']);
+            $curriculo = App\Curriculo::where('user_id', Auth::user()->id)->first();
+            if($curriculo == null){
+                return redirect('/personas/curriculo/datos-personales')->withErrors(['error' => 'Debe Crear su curriculo primero']);
 
-        }
-        $formaciones = App\Formacione::where('curriculo_id', $curriculo->id)->get();
-        $profesiones = App\Profesione::orderBy('profesione')->get();
-        $niveles = App\Nivele::all();
+            }
+            $formaciones = App\Formacione::where('curriculo_id', $curriculo->id)->get();
+            $profesiones = App\Profesione::orderBy('profesione')->get();
+            $niveles = App\Nivele::all();
 
-        return view('personas.formacion')->with([
-            'formaciones' => $formaciones,
-            'profesiones' => $profesiones,
-            'niveles' => $niveles
-        ]); 
+            return view('personas.formacion')->with([
+                'formaciones' => $formaciones,
+                'profesiones' => $profesiones,
+                'niveles' => $niveles
+            ]); 
+        });
+
+        Route::get('/formacion/{id}', function ($id) {
+
+            $formacione = App\Formacione::where('id', $id)->first();
+            $profesiones = App\Profesione::orderBy('profesione')->get();
+            $niveles = App\Nivele::all();
+
+            return view('personas.formacion-edit')->with([
+                'formacione' => $formacione,
+                'profesiones' => $profesiones,
+                'niveles' => $niveles
+            ]);
         });
 
         Route::post('/formacion', 'CurriculoController@formacion');
+
+        Route::put('/formacion/{id}/edit', 'CurriculoController@formacionEdit');
 
 
         
